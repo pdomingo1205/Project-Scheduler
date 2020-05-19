@@ -69,14 +69,14 @@ public class ProjectPlanController {
         }
     }
 
-    private void showMainOptions(Boolean hasEnded) {
+    private Boolean showMainOptions() {
         print("Choose Operation");
         print("1. Add Project Plan");
         print("2. Edit Project Plan (Use to add tasks)");
         print("3. Generate Schedule");
         print("4. Exit");
 
-        Integer ans = InputUtil.getIntegerInput(3);
+        Integer ans = InputUtil.getIntegerInput(4);
         switch (ans) {
             case 1:
                 addProjectPlan();
@@ -88,9 +88,9 @@ public class ProjectPlanController {
                 generateSchedule();
                 break;
             case 4:
-                hasEnded = true;
-                break;
+                return true;
         }
+        return false;
     }
 
     //Task Functions
@@ -201,9 +201,8 @@ public class ProjectPlanController {
 
     public void start() {
         Boolean hasEnded = false;
-
         do {
-            showMainOptions(hasEnded);
+            hasEnded = showMainOptions();
 
         } while (hasEnded.equals(false));
     }
