@@ -1,5 +1,6 @@
-package model;
+package domain;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Task extends NamedObject {
@@ -8,6 +9,11 @@ public class Task extends NamedObject {
     private Set<String> dependencyTaskIds;
     private String startDate;
     private String endDate;
+
+    public Task(String id) {
+        this.id = id;
+        this.dependencyTaskIds = new HashSet<>();
+    }
 
     public Integer getDuration() {
         return duration;
@@ -47,5 +53,13 @@ public class Task extends NamedObject {
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public String listDependencies() {
+        String dependencyList = "";
+        for (String id : dependencyTaskIds) {
+            dependencyList += (id + ", ");
+        }
+        return dependencyList;
     }
 }

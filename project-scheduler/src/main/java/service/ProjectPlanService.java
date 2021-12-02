@@ -1,7 +1,7 @@
 package service;
 
-import model.ProjectPlan;
-import model.Task;
+import domain.ProjectPlan;
+import domain.Task;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -15,7 +15,7 @@ public class ProjectPlanService {
         LocalDate today = LocalDate.now();
         tasks.forEach(task -> {
             getMaxDurationOfTask(tasks, task);
-            Integer startOffset = task.getDuration() == task.getMaxDuration()? 0: task.getMaxDuration() - task.getDuration();
+            Integer startOffset = task.getDuration() == task.getMaxDuration() ? 0 : task.getMaxDuration() - task.getDuration();
             task.setStartDate(today.plusDays(startOffset).format(DateTimeFormatter.ISO_LOCAL_DATE));
             task.setEndDate(today.plusDays(task.getMaxDuration()).format(DateTimeFormatter.ISO_LOCAL_DATE));
         });
@@ -40,22 +40,9 @@ public class ProjectPlanService {
         return task.getMaxDuration();
     }
 
-    public ProjectPlan initProjectPlanObject() {
-        ProjectPlan projectPlan = new ProjectPlan();
-        projectPlan.setTasks(new ArrayList<>());
-        return projectPlan;
-    }
-
-    public Task initTaskObject(ProjectPlan  projectPlan) {
-        Task task = new Task();
-        task.setDependencyTaskIds(new HashSet<>());
-        task.setId(String.valueOf(projectPlan.getTasks().size() + 1));
-        return task;
-    }
-
     public Task findTaskById(ProjectPlan projectPlan, String id) {
         List<Task> tasks = projectPlan.getTasks().stream().filter(task -> task.getId().equals(id)).collect(Collectors.toList());
-        return tasks.size() > 0? tasks.get(0): null;
+        return tasks.size() > 0 ? tasks.get(0) : null;
     }
 
     public List<String> findDependentIds(List<Task> tasks, String idToCheck) {
@@ -71,13 +58,19 @@ public class ProjectPlanService {
      */
     public Boolean checkForCircularDependency(List<Task> tasks, String dependentId, String idToCheck) {
         List<String> dependentIds = new ArrayList<>();
+        List<String> idToCheckDependents = new ArrayList<>();
         tasks.stream().forEach(task -> {
             task.getDependencyTaskIds().forEach(taskId -> System.out.println(taskId));
             if (task.getDependencyTaskIds().contains(dependentId)) {
+                idToCheckDependents.add(task.getId());
                 dependentIds.addAll(findDependentIds(tasks, task.getId()));
             }
         });
-        dependentIds.forEach(s -> System.out.println("Dependents: " + s));
+        if (idToCheckDependents.size() > 0) {
+            System.out.print("TASK #" + idToCheck + " Depends on: ");
+            idToCheckDependents.forEach(id -> System.out.print("#" + id + ", "));
+            System.out.println();
+        }
         return dependentIds.contains(idToCheck);
     }
 }
