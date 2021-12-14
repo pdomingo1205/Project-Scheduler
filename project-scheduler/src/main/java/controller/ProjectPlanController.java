@@ -11,8 +11,8 @@ import java.util.stream.Collectors;
 import static util.InputUtil.*;
 
 public class ProjectPlanController {
-    private static String ERR_NO_PROJ_PLAN = "NO EXISTING PROJECT PLANS!";
-    private static String ERR_NO_TASK = "NO EXISTING TASKS!";
+    private final static String ERR_NO_PROJ_PLAN = "NO EXISTING PROJECT PLANS!";
+    private final static String ERR_NO_TASK = "NO EXISTING TASKS!";
 
     private ProjectPlanRepository projectPlanRepository = new ProjectPlanRepository();
     private ProjectPlanService projectPlanService = new ProjectPlanService();
