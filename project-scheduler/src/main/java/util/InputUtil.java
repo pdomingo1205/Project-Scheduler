@@ -1,6 +1,5 @@
 package util;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public final class InputUtil {
