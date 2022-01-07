@@ -15,6 +15,7 @@ public class ProjectPlanController {
     private final static String ERR_NO_TASK = "NO EXISTING TASKS!";
 
     private ProjectPlanRepository projectPlanRepository = new ProjectPlanRepository();
+
     private ProjectPlanService projectPlanService = new ProjectPlanService();
 
     //Project Plan Functions
@@ -24,10 +25,9 @@ public class ProjectPlanController {
 
         ProjectPlan projectPlan = new ProjectPlan();
         projectPlan.setName(getStringInput());
-
         System.out.println(projectPlanRepository.save(projectPlan).getName() + "has been saved.");
         System.out.println();
-    }
+}
 
     private void editProjectPlan() {
         List<ProjectPlan> projectPlans = projectPlanRepository.getAll();
@@ -41,7 +41,6 @@ public class ProjectPlanController {
             Integer selectedId = getIntegerInput(projectPlans.size());
             ProjectPlan projectPlan = projectPlanRepository.findById(selectedId.toString());
             editPlanFieldOptions(projectPlan);
-
 
         } else {
             showErrorPrompt(ERR_NO_PROJ_PLAN);
@@ -172,7 +171,6 @@ public class ProjectPlanController {
 
     //Task Functions
     private void addTask(ProjectPlan projectPlan) {
-
 
         Task task = new Task(String.valueOf(projectPlan.getTasks().size() + 1));
         System.out.println();
